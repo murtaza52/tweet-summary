@@ -4,7 +4,7 @@
             [tweet-summary.utils.date :refer [string-to-date date-to-string]]
             [clojure.string :as string]
             [clojure.data.priority-map :refer [priority-map-by]]
-            [clojure.core.async :refer [<!!]]))
+            [clojure.core.async :refer [chan go !< !<< >! >!!]]))
 
 ;; (def screen-names ["weavejester", "ibdknox", "nathanmarz", "technomancy", "odersky", "craigandera", "ctford", "ghoseb", "trptcolin", "rkneufeld"])
 
@@ -27,12 +27,35 @@
        (take 100)
        (into (priority-map-by >))))
 
+;; (defn top-words
+;;   [in out]
+;;   (go
+;;    (->> in
+;;         !<
+;;         (map :text)
+;;         (mapcat #(string/split % #" "))
+;;         frequencies
+;;         (into (priority-map-by >))
+;;         (take 100)
+;;         (into (priority-map-by >))
+;;         (>! out))))
+
+
+;; (defn top-words-chan
+;;   [in]
+;;   (go
+;;    (->> in
+;;         !<
+;;         top-words
+;;         (>! (chan)))))
+
 (defn tweets-by-hour
   [coll]
   (->> coll
        (map :date)
        (map date-to-string)
        frequencies))
+(def processors [top-words tweets-by-hour])
 
 (def process-tweets #(vector (top-words %) (tweets-by-hour %)))
 
@@ -43,3 +66,4 @@
      flatten
      make-tweet-maps
      process-tweets)
+
