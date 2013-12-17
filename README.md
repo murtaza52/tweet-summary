@@ -1,10 +1,12 @@
 # tweet-summary
 
-A Clojure library designed to ... well, that part is up to you.
+This is fun project to explore a few concepts in clojure. 
 
-## Usage
+It retrieves tweets of the given users using http-kit asynchronously. 
 
-FIXME
+The http-kit operations are wrapped in go blocks, which provides a good case for using go channells. 
+
+The retrieved tweets are then processed parallelly. 
 
 ## License
 
