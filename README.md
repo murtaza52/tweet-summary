@@ -6,7 +6,7 @@ It retrieves tweets of the given users using http-kit asynchronously.
 
 The http-kit operations are wrapped in go blocks, which provides a good case for using go channells. 
 
-The retrieved tweets are then processed parallelly. 
+The retrieved tweets are then processed in parallel. 
 
 ## License
 
