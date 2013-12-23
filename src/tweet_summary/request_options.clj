@@ -1,4 +1,4 @@
-(ns tweet-summary.options
+(ns tweet-summary.request-options
   (:require [client-oauth2.oauth-header :as oauth]
             [tweet-summary.config :refer [config]]))
 
@@ -9,13 +9,12 @@
 
 (def get-auth-header
   (fn [opt]
-    ((oauth/get-auth-header-graph
+    (oauth/get-auth-header
       :consumer-key (config :consumer-key)
       :consumer-secret (config :consumer-secret)
       :request-options opt
       :oauth-token (config :access-token)
-      :oauth-token-secret (config :access-token-secret))
-     :auth-header)))
+      :oauth-token-secret (config :access-token-secret))))
 
 (defn get-option
   [screen-name]
